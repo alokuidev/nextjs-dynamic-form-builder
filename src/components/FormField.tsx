@@ -26,7 +26,6 @@ export default function FormField({
   const [required, setRequired] = useState(field.required);
   const [options, setOptions] = useState(field.options || []);
 
-  // Sync local state to parent
   useEffect(() => {
     onFieldMetaChange?.({ label });
   }, [label]);
@@ -42,7 +41,7 @@ export default function FormField({
   }, [options]);
 
   const baseInputClass =
-    'w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200';
+    'w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all duration-200';
 
   const renderFieldInput = () => {
     switch (field.type) {
@@ -77,9 +76,9 @@ export default function FormField({
             required={required}
           >
             <option value="">Select an option</option>
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
+            {options.map((opt, index) => (
+              <option key={index} value={opt}>
+                {opt}
               </option>
             ))}
           </select>
@@ -90,108 +89,79 @@ export default function FormField({
   };
 
   return (
-    <div className="form-field mb-6 p-6 bg-white rounded-2xl shadow border border-gray-100 relative">
-      {/* Header: Label, Drag, Remove */}
-      <div className="flex items-start justify-between mb-2">
-        <div className="flex items-center gap-2 flex-1">
+    <div className="bg-white rounded-xl shadow-md hover:shadow-lg border border-gray-200 p-6 transition-all duration-300 animate-fade-in-up">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div className="flex items-center gap-3 w-full">
           <div
             {...dragHandleProps}
-            className="cursor-move p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 text-gray-400"
-            title="Drag to reorder"
-          >
-            ☰
-          </div>
+            className="w-4 h-4 bg-indigo-300 rounded-sm cursor-grab"
+            title="Drag"
+          />
           <input
             type="text"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
-            className="form-field-label bg-transparent border-none focus:ring-0 focus:border-blue-400 text-xl font-bold px-0 py-0"
-            style={{ minWidth: 0 }}
+            placeholder="Field Label"
+            className="flex-1 border-b border-gray-300 focus:border-indigo-500 focus:outline-none text-base font-medium bg-transparent"
           />
         </div>
         <button
           type="button"
           onClick={onRemove}
-          className="btn-icon absolute top-4 right-4"
-          aria-label="Remove field"
+          className="text-sm text-red-600 hover:text-red-800 underline"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          Remove
         </button>
       </div>
 
-      {/* Required checkbox */}
-      <div className="flex items-center gap-2 mb-4 ml-8">
+      {/* Required */}
+      <label className="inline-flex items-center gap-2 mt-4 text-sm text-gray-600">
         <input
           type="checkbox"
           checked={required}
           onChange={(e) => setRequired(e.target.checked)}
-          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition-all duration-200"
+          className="accent-indigo-600"
         />
-        <span className="text-gray-700">Required</span>
-      </div>
+        Required field
+      </label>
 
-      {/* Dropdown options if applicable */}
+      {/* Dropdown Option Editor */}
       {field.type === 'dropdown' && (
-        <div className="mb-4 ml-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Options
-          </label>
-          <div className="space-y-2">
-            {options.map((option, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  value={option}
-                  onChange={(e) => {
-                    const newOptions = [...options];
-                    newOptions[index] = e.target.value;
-                    setOptions(newOptions);
-                  }}
-                  className="form-field-input"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const newOptions = options.filter((_, i) => i !== index);
-                    setOptions(newOptions);
-                  }}
-                  className="btn-icon"
-                >
-                  ❌
-                </button>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-3 mt-4">
+          <label className="text-sm font-medium text-gray-700">Dropdown Options</label>
+          {options.map((option, index) => (
+            <div key={index} className="flex gap-2">
+              <input
+                type="text"
+                value={option}
+                onChange={(e) => {
+                  const updated = [...options];
+                  updated[index] = e.target.value;
+                  setOptions(updated);
+                }}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => setOptions(options.filter((_, i) => i !== index))}
+                className="text-sm text-red-600 hover:text-red-800"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
           <button
             type="button"
             onClick={() => setOptions([...options, 'New Option'])}
-            className="inline-flex items-center gap-2 px-3 py-1.5 mt-2 text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-150"
-            title="Add Option"
-            aria-label="Add Option"
+            className="text-sm text-indigo-600 hover:text-indigo-800 underline"
           >
-            <span className="btn-icon bg-blue-100 text-blue-700 hover:bg-blue-200 p-0 w-6 h-6"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" /></svg></span>
-            Add Option
+            + Add Option
           </button>
         </div>
       )}
 
-      {/* Final input render */}
-      <div className="ml-8 mt-2">
-        {renderFieldInput()}
-      </div>
+      <div className="mt-4">{renderFieldInput()}</div>
     </div>
   );
 }

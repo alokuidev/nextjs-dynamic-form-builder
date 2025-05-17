@@ -10,46 +10,43 @@ interface AddFieldButtonProps {
 export default function AddFieldButton({ onAddField }: AddFieldButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const fieldTypes: { type: FieldType; label: string; icon: string }[] = [
-    { type: 'text', label: 'Text Field', icon: 'Aa' },
-    { type: 'number', label: 'Number Field', icon: '123' },
-    { type: 'birth-date', label: 'Date Field', icon: '📅' },
-    { type: 'dropdown', label: 'Dropdown Field', icon: '▼' },
+  const fieldTypes: { type: FieldType; label: string }[] = [
+    { type: 'text', label: 'Text Field' },
+    { type: 'number', label: 'Number Field' },
+    { type: 'birth-date', label: 'Date Field' },
+    { type: 'dropdown', label: 'Dropdown Field' },
   ];
 
   return (
-    <div className="relative">
+    <div className="relative inline-block w-full sm:w-auto">
       <button
-        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="btn btn-primary w-full px-6 py-4 flex items-center justify-center space-x-2"
+        type="button"
+        className="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-medium shadow-md transition-all duration-200"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        <span>Add Field</span>
+        Add Field
       </button>
 
       {isOpen && (
-        <div className="dropdown-panel absolute top-full left-0 right-0">
-          <div>
-            {fieldTypes.map(({ type, label, icon }) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => {
-                  onAddField(type);
-                  setIsOpen(false);
-                }}
-                className="dropdown-item"
-              >
-                <span className="text-xl">{icon}</span>
-                <span>{label}</span>
-              </button>
+        <div className="absolute mt-2 z-20 w-full sm:w-64 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 animate-fade-in">
+          <ul className="py-2 text-sm text-gray-700 divide-y divide-gray-100">
+            {fieldTypes.map(({ type, label }) => (
+              <li key={type}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onAddField(type);
+                    setIsOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 hover:bg-gray-50 text-left"
+                >
+                  {label}
+                </button>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       )}
     </div>
   );
-} 
+}

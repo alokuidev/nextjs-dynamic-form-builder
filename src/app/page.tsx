@@ -23,7 +23,6 @@ export default function Home() {
   useEffect(() => {
     const savedFields = localStorage.getItem(`${STORAGE_KEY}-fields`);
     const savedFormData = localStorage.getItem(`${STORAGE_KEY}-formData`);
-    
     if (savedFields) setFields(JSON.parse(savedFields));
     if (savedFormData) setFormData(JSON.parse(savedFormData));
   }, []);
@@ -48,17 +47,14 @@ export default function Home() {
   };
 
   const handleRemoveField = (id: string) => {
-    setFields(fields.filter(field => field.id !== id));
-    const newFormData = { ...formData };
-    delete newFormData[id];
-    setFormData(newFormData);
+    setFields(fields.filter((field) => field.id !== id));
+    const updated = { ...formData };
+    delete updated[id];
+    setFormData(updated);
   };
 
   const handleFieldChange = (id: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [id]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -67,9 +63,8 @@ export default function Home() {
     alert('Form submitted successfully!');
   };
 
-  const handleClearData = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (window.confirm('Are you sure you want to clear all form data?')) {
+  const handleClearData = () => {
+    if (window.confirm('Clear all fields and data?')) {
       setFields([]);
       setFormData({});
       localStorage.removeItem(`${STORAGE_KEY}-fields`);
@@ -78,27 +73,31 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center">
-      <div className="max-w-4xl w-full mx-auto px-4 py-12">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+      <div className="max-w-4xl mx-auto space-y-10 animate-fade-in">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="hero-title">Dynamic Form Builder</h1>
-          <p className="hero-subtitle">Create beautiful, custom forms with drag-and-drop ease. Experience instant feedback and a modern, interactive UI.</p>
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl md:text-5xl font-bold text-indigo-700">
+            Dynamic Form Builder
+          </h1>
+          <p className="text-base md:text-lg text-gray-600">
+            Easily add, remove and rearrange your form fields — all in real-time.
+          </p>
         </div>
-        {/* Form Builder Card */}
-        <div className="form-builder-container glass-card card-animate">
-          <div className="form-builder-header">
+
+        {/* Builder Controls */}
+        <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <div>
-              <h2 className="form-builder-title">Your Form</h2>
-              <p className="form-builder-subtitle">Add, customize, and reorder fields below</p>
+              <h2 className="text-lg font-semibold text-gray-800">Manage Form Fields</h2>
+              <p className="text-sm text-gray-500">Customize your form layout below.</p>
             </div>
             {fields.length > 0 && (
               <button
-                type="button"
                 onClick={handleClearData}
-                className="btn btn-danger btn-outline"
+                className="text-sm text-red-600 hover:text-red-800 border border-red-500 px-4 py-2 rounded transition"
               >
-                Clear All Data
+                Clear All
               </button>
             )}
           </div>
@@ -106,7 +105,8 @@ export default function Home() {
           <AddFieldButton onAddField={handleAddField} />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 card-animate">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
           <DragDropWrapper
             fields={fields}
             setFields={setFields}
@@ -119,7 +119,7 @@ export default function Home() {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="btn btn-primary px-8 py-3"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold shadow transition"
               >
                 Submit Form
               </button>

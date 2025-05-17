@@ -87,7 +87,7 @@ body {
 
 /* Form Builder Sticky Styles */
 .form-builder-container {
-  @apply sticky top-4 z-10 bg-white rounded-2xl shadow-xl p-8 mb-8;
+  @apply md:sticky md:top-4 z-10 bg-white rounded-2xl shadow-xl p-8 mb-8;
 }
 
 .form-builder-header {
@@ -114,3 +114,17 @@ body {
     transform: translateY(0) scale(1);
   }
 } 
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in 0.7s ease-out forwards;
+  opacity: 0;
+  transform: translateY(15px);
+}
