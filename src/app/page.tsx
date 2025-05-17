@@ -80,13 +80,13 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <div className="flex justify-between items-center mb-8">
+        <div className="form-builder-container">
+          <div className="form-builder-header">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+              <h1 className="form-builder-title">
                 Dynamic Form Builder
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="form-builder-subtitle">
                 Create and customize your form with drag-and-drop ease
               </p>
             </div>
@@ -94,7 +94,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={handleClearData}
-                className="px-4 py-2 text-red-600 hover:text-red-700 border-2 border-red-600 rounded-lg hover:bg-red-50 transition-all duration-200 font-medium"
+                className="btn btn-danger btn-outline"
               >
                 Clear All Data
               </button>
@@ -107,7 +107,7 @@ export default function Home() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <DragDropWrapper
             fields={fields}
-            setFields={setFields} // ✅ passed for reorder to work
+            setFields={setFields}
             onRemoveField={handleRemoveField}
             onFieldChange={handleFieldChange}
             formData={formData}
@@ -117,7 +117,7 @@ export default function Home() {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="btn btn-primary px-8 py-3"
               >
                 Submit Form
               </button>

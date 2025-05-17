@@ -19,10 +19,10 @@ import FormField from './FormField';
 
 interface Props {
   fields: FormFieldData[];
+  setFields: (fields: FormFieldData[]) => void;
   onRemoveField: (id: string) => void;
   onFieldChange: (id: string, value: any) => void;
   formData: Record<string, any>;
-  setFields: (fields: FormFieldData[]) => void;
 }
 
 export default function DragDropWrapper({
@@ -47,14 +47,16 @@ export default function DragDropWrapper({
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={fields.map(f => f.id)} strategy={verticalListSortingStrategy}>
         <div className="space-y-4 mt-4">
-          {fields.map(field => (
+          {fields.map((field) => (
             <SortableFormField
               key={field.id}
               id={field.id}
               field={field}
-              value={formData[field.id] || ''}
-              onRemove={() => onRemoveField(field.id)}
-              onChange={(value) => onFieldChange(field.id, value)}
+              formData={formData}
+              onFieldChange={onFieldChange}
+              onRemoveField={onRemoveField}
+              setFields={setFields}
+              fields={fields}
             />
           ))}
         </div>
@@ -63,10 +65,28 @@ export default function DragDropWrapper({
   );
 }
 
-function SortableFormField({ id, field, onRemove, onChange, value }: any) {
+interface SortableProps {
+  id: string;
+  field: FormFieldData;
+  formData: Record<string, any>;
+  fields: FormFieldData[];
+  setFields: (fields: FormFieldData[]) => void;
+  onFieldChange: (id: string, value: any) => void;
+  onRemoveField: (id: string) => void;
+}
+
+function SortableFormField({
+  id,
+  field,
+  formData,
+  fields,
+  setFields,
+  onFieldChange,
+  onRemoveField,
+}: SortableProps) {
   const {
     attributes,
-    listeners,
+    listeners, // ✅ only this gets passed to icon now
     setNodeRef,
     transform,
     transition,
@@ -77,9 +97,31 @@ function SortableFormField({ id, field, onRemove, onChange, value }: any) {
     transition,
   };
 
+  const handleMetaChange = (update: Partial<FormFieldData>) => {
+    const updated = fields.map(f =>
+      f.id === field.id ? { ...f, ...update } : f
+    );
+    setFields(updated);
+  };
+
+  const handleOptionsChange = (options: string[]) => {
+    const updated = fields.map(f =>
+      f.id === field.id ? { ...f, options } : f
+    );
+    setFields(updated);
+  };
+
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <FormField field={field} onRemove={onRemove} onChange={onChange} value={value} />
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <FormField
+        field={field}
+        value={formData[field.id] || ''}
+        onChange={(value) => onFieldChange(field.id, value)}
+        onRemove={() => onRemoveField(field.id)}
+        onFieldMetaChange={handleMetaChange}
+        onOptionsChange={handleOptionsChange}
+        dragHandleProps={listeners} // ✅ passed to drag icon only
+      />
     </div>
   );
 }
