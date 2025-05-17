@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { DropResult } from 'react-beautiful-dnd';
 import AddFieldButton from '@/components/AddFieldButton';
 import DragDropWrapper from '@/components/DragDropWrapper';
 
@@ -12,7 +11,7 @@ export interface FormFieldData {
   type: FieldType;
   label: string;
   required: boolean;
-  options?: string[]; // For dropdown fields
+  options?: string[];
 }
 
 const STORAGE_KEY = 'form-builder-data';
@@ -21,25 +20,18 @@ export default function Home() {
   const [fields, setFields] = useState<FormFieldData[]>([]);
   const [formData, setFormData] = useState<Record<string, any>>({});
 
-  // Load saved data from localStorage on component mount
   useEffect(() => {
     const savedFields = localStorage.getItem(`${STORAGE_KEY}-fields`);
     const savedFormData = localStorage.getItem(`${STORAGE_KEY}-formData`);
     
-    if (savedFields) {
-      setFields(JSON.parse(savedFields));
-    }
-    if (savedFormData) {
-      setFormData(JSON.parse(savedFormData));
-    }
+    if (savedFields) setFields(JSON.parse(savedFields));
+    if (savedFormData) setFormData(JSON.parse(savedFormData));
   }, []);
 
-  // Save fields to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem(`${STORAGE_KEY}-fields`, JSON.stringify(fields));
   }, [fields]);
 
-  // Save form data to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(`${STORAGE_KEY}-formData`, JSON.stringify(formData));
   }, [formData]);
@@ -57,33 +49,21 @@ export default function Home() {
 
   const handleRemoveField = (id: string) => {
     setFields(fields.filter(field => field.id !== id));
-    // Also remove the field's data from formData
     const newFormData = { ...formData };
     delete newFormData[id];
     setFormData(newFormData);
   };
 
-  const handleDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
-
-    const items = Array.from(fields);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setFields(items);
-  };
-
   const handleFieldChange = (id: string, value: any) => {
     setFormData(prev => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Here you can add your form submission logic
     alert('Form submitted successfully!');
   };
 
@@ -120,19 +100,19 @@ export default function Home() {
               </button>
             )}
           </div>
-          
+
           <AddFieldButton onAddField={handleAddField} />
         </div>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <DragDropWrapper
             fields={fields}
-            onDragEnd={handleDragEnd}
+            setFields={setFields} // ✅ passed for reorder to work
             onRemoveField={handleRemoveField}
             onFieldChange={handleFieldChange}
             formData={formData}
           />
-          
+
           {fields.length > 0 && (
             <div className="flex justify-end">
               <button
@@ -147,4 +127,4 @@ export default function Home() {
       </div>
     </main>
   );
-} 
+}

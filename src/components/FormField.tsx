@@ -7,36 +7,37 @@ interface FormFieldProps {
   field: FormFieldData;
   onRemove: () => void;
   dragHandleProps?: any;
+  draggableProps?: any;
   value: string;
   onChange: (value: string) => void;
 }
 
-export default function FormField({ field, onRemove, dragHandleProps, value, onChange }: FormFieldProps) {
+export default function FormField({
+  field,
+  onRemove,
+  dragHandleProps,
+  draggableProps,
+  value,
+  onChange,
+}: FormFieldProps) {
   const [label, setLabel] = useState(field.label);
   const [required, setRequired] = useState(field.required);
   const [options, setOptions] = useState(field.options || []);
 
+  const baseInputClass =
+    'w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200';
+
   const renderFieldInput = () => {
     switch (field.type) {
       case 'text':
-        return (
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-            placeholder="Enter text"
-            required={required}
-          />
-        );
       case 'number':
         return (
           <input
-            type="number"
+            type={field.type}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-            placeholder="Enter number"
+            className={baseInputClass}
+            placeholder={`Enter ${field.type}`}
             required={required}
           />
         );
@@ -46,16 +47,16 @@ export default function FormField({ field, onRemove, dragHandleProps, value, onC
             type="date"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            className={baseInputClass}
             required={required}
           />
         );
       case 'dropdown':
         return (
-          <select 
+          <select
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            className={baseInputClass}
             required={required}
           >
             <option value="">Select an option</option>
@@ -72,23 +73,26 @@ export default function FormField({ field, onRemove, dragHandleProps, value, onC
   };
 
   return (
-    <div className="p-6 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-200">
+    <div
+      {...draggableProps}
+      className="p-6 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-200"
+    >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3 flex-1">
-          <div 
-            {...dragHandleProps} 
+          <div
+            {...dragHandleProps}
             className="cursor-move p-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
             title="Drag to reorder"
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="24" 
-              height="24" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
               strokeLinejoin="round"
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
@@ -112,8 +116,19 @@ export default function FormField({ field, onRemove, dragHandleProps, value, onC
           onClick={onRemove}
           className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-all duration-200"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
           </svg>
         </button>
       </div>
@@ -154,7 +169,13 @@ export default function FormField({ field, onRemove, dragHandleProps, value, onC
                   }}
                   className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-all duration-200"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -166,7 +187,13 @@ export default function FormField({ field, onRemove, dragHandleProps, value, onC
             onClick={() => setOptions([...options, 'New Option'])}
             className="mt-3 inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             Add Option
@@ -177,4 +204,4 @@ export default function FormField({ field, onRemove, dragHandleProps, value, onC
       {renderFieldInput()}
     </div>
   );
-} 
+}
