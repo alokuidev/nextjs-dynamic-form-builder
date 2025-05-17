@@ -23,6 +23,7 @@ interface Props {
   onRemoveField: (id: string) => void;
   onFieldChange: (id: string, value: any) => void;
   formData: Record<string, any>;
+  onFieldMetaChange?: (id: string, update: Partial<FormFieldData>) => void;
 }
 
 export default function DragDropWrapper({
@@ -31,6 +32,7 @@ export default function DragDropWrapper({
   onRemoveField,
   onFieldChange,
   formData,
+  onFieldMetaChange,
 }: Props) {
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -57,6 +59,7 @@ export default function DragDropWrapper({
               onRemoveField={onRemoveField}
               setFields={setFields}
               fields={fields}
+              onFieldMetaChange={onFieldMetaChange}
             />
           ))}
         </div>
@@ -73,6 +76,7 @@ interface SortableProps {
   setFields: (fields: FormFieldData[]) => void;
   onFieldChange: (id: string, value: any) => void;
   onRemoveField: (id: string) => void;
+  onFieldMetaChange?: (id: string, update: Partial<FormFieldData>) => void;
 }
 
 function SortableFormField({
@@ -83,6 +87,7 @@ function SortableFormField({
   setFields,
   onFieldChange,
   onRemoveField,
+  onFieldMetaChange,
 }: SortableProps) {
   const {
     attributes,
@@ -118,7 +123,7 @@ function SortableFormField({
         value={formData[field.id] || ''}
         onChange={(value) => onFieldChange(field.id, value)}
         onRemove={() => onRemoveField(field.id)}
-        onFieldMetaChange={handleMetaChange}
+        onFieldMetaChange={update => onFieldMetaChange && onFieldMetaChange(field.id, update)}
         onOptionsChange={handleOptionsChange}
         dragHandleProps={listeners} // ✅ passed to drag icon only
       />

@@ -4,7 +4,7 @@
 
 :root {
   --foreground-rgb: 34, 34, 34;
-  --background-rgb: 245, 247, 250;
+  --background-rgb: 247, 249, 251;
   --primary-color: #2563eb;
   --secondary-color: #f59e42;
   --font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -12,39 +12,36 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #fff;
   font-family: var(--font-family);
   min-height: 100vh;
   line-height: 1.6;
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: color 0.2s, background 0.3s;
 }
 
-/* Enhanced Button Styles */
+/* Button Styles */
 .btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm;
+  @apply px-5 py-2.5 rounded-xl font-semibold text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-sm;
+  background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  letter-spacing: 0.01em;
 }
-
-.btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 border border-blue-600;
+.btn:hover {
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+  box-shadow: 0 4px 16px 0 rgba(37, 99, 235, 0.10);
+  transform: translateY(-2px) scale(1.03);
 }
-
-.btn-secondary {
-  @apply bg-white text-gray-800 border border-gray-300 hover:bg-gray-100 active:bg-gray-200;
-}
-
-.btn-danger {
-  @apply bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 active:bg-red-200;
-}
-
-.btn-outline {
-  @apply border border-gray-300 bg-white text-gray-700 hover:bg-gray-50;
+.btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px 0 rgba(37, 99, 235, 0.10);
 }
 
 .btn-icon {
-  @apply p-0 w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow hover:bg-red-100 hover:text-red-700 transition-colors duration-150;
+  @apply w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150;
+  color: #2563eb;
 }
 
 /* Dropdown Styles */
@@ -52,7 +49,40 @@ body {
   @apply bg-white rounded-xl shadow-lg border border-gray-200 mt-2 py-2 z-20;
 }
 .dropdown-item {
-  @apply w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 rounded-lg flex items-center space-x-3 transition-colors duration-150;
+  @apply w-full px-4 py-2 text-left text-gray-800 hover:bg-blue-50 hover:text-blue-700 rounded-lg flex items-center space-x-3 transition-colors duration-150 font-medium text-base;
+}
+
+/* Form Field Styles */
+.form-field-input, .form-field select {
+  @apply w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-900 text-base shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all duration-200;
+}
+.form-field-input:focus, .form-field select:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  border-color: #2563eb;
+}
+
+.form-field-label {
+  @apply text-lg font-semibold border-b-2 border-transparent focus:outline-none focus:border-blue-500 flex-1 px-2 py-1 transition-all duration-200 text-gray-900;
+}
+
+/* Glassmorphism Card (keep for form builder) */
+.glass-card {
+  @apply bg-white bg-opacity-90 backdrop-blur-lg shadow-2xl rounded-3xl border border-white border-opacity-40;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.glass-card:hover {
+  box-shadow: 0 16px 48px 0 rgba(31, 38, 135, 0.18);
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Hero Title & Subtitle */
+.hero-title {
+  @apply text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-400 to-blue-800 drop-shadow-lg;
+  letter-spacing: 0.01em;
+}
+.hero-subtitle {
+  @apply text-lg md:text-2xl text-gray-700 mt-4 font-medium;
 }
 
 /* Form Builder Sticky Styles */
@@ -72,19 +102,15 @@ body {
   @apply text-gray-600 mt-2;
 }
 
-/* Form Field Styles */
-.form-field {
-  @apply p-6 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-200;
+/* Card Entrance Animation */
+.card-animate {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  animation: cardFadeIn 1s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards;
 }
-
-.form-field-header {
-  @apply flex items-center justify-between mb-6;
-}
-
-.form-field-input {
-  @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200;
-}
-
-.form-field-label {
-  @apply text-lg font-medium border-b-2 border-transparent focus:outline-none focus:border-blue-500 flex-1 px-2 py-1 transition-all duration-200;
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 } 

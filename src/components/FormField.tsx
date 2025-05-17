@@ -90,12 +90,13 @@ export default function FormField({
   };
 
   return (
-    <div className="form-field">
-      <div className="form-field-header">
-        <div className="flex items-center space-x-3 flex-1">
+    <div className="form-field mb-6 p-6 bg-white rounded-2xl shadow border border-gray-100 relative">
+      {/* Header: Label, Drag, Remove */}
+      <div className="flex items-start justify-between mb-2">
+        <div className="flex items-center gap-2 flex-1">
           <div
             {...dragHandleProps}
-            className="cursor-move p-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
+            className="cursor-move p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 text-gray-400"
             title="Drag to reorder"
           >
             ☰
@@ -104,13 +105,14 @@ export default function FormField({
             type="text"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
-            className="form-field-label"
+            className="form-field-label bg-transparent border-none focus:ring-0 focus:border-blue-400 text-xl font-bold px-0 py-0"
+            style={{ minWidth: 0 }}
           />
         </div>
         <button
           type="button"
           onClick={onRemove}
-          className="btn-icon"
+          className="btn-icon absolute top-4 right-4"
           aria-label="Remove field"
         >
           <svg
@@ -130,22 +132,20 @@ export default function FormField({
         </button>
       </div>
 
-      <div className="mb-4">
-        <label className="flex items-center space-x-2 cursor-pointer group">
-          <input
-            type="checkbox"
-            checked={required}
-            onChange={(e) => setRequired(e.target.checked)}
-            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition-all duration-200"
-          />
-          <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
-            Required
-          </span>
-        </label>
+      {/* Required checkbox */}
+      <div className="flex items-center gap-2 mb-4 ml-8">
+        <input
+          type="checkbox"
+          checked={required}
+          onChange={(e) => setRequired(e.target.checked)}
+          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition-all duration-200"
+        />
+        <span className="text-gray-700">Required</span>
       </div>
 
+      {/* Dropdown options if applicable */}
       {field.type === 'dropdown' && (
-        <div className="mb-4">
+        <div className="mb-4 ml-8">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Options
           </label>
@@ -168,7 +168,7 @@ export default function FormField({
                     const newOptions = options.filter((_, i) => i !== index);
                     setOptions(newOptions);
                   }}
-                  className="btn btn-danger btn-outline p-2"
+                  className="btn-icon"
                 >
                   ❌
                 </button>
@@ -178,14 +178,20 @@ export default function FormField({
           <button
             type="button"
             onClick={() => setOptions([...options, 'New Option'])}
-            className="btn btn-primary mt-2"
+            className="inline-flex items-center gap-2 px-3 py-1.5 mt-2 text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-150"
+            title="Add Option"
+            aria-label="Add Option"
           >
-            ➕ Add Option
+            <span className="btn-icon bg-blue-100 text-blue-700 hover:bg-blue-200 p-0 w-6 h-6"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" /></svg></span>
+            Add Option
           </button>
         </div>
       )}
 
-      {renderFieldInput()}
+      {/* Final input render */}
+      <div className="ml-8 mt-2">
+        {renderFieldInput()}
+      </div>
     </div>
   );
 }

@@ -78,17 +78,19 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="form-builder-container">
+    <main className="min-h-screen flex flex-col justify-center items-center">
+      <div className="max-w-4xl w-full mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="hero-title">Dynamic Form Builder</h1>
+          <p className="hero-subtitle">Create beautiful, custom forms with drag-and-drop ease. Experience instant feedback and a modern, interactive UI.</p>
+        </div>
+        {/* Form Builder Card */}
+        <div className="form-builder-container glass-card card-animate">
           <div className="form-builder-header">
             <div>
-              <h1 className="form-builder-title">
-                Dynamic Form Builder
-              </h1>
-              <p className="form-builder-subtitle">
-                Create and customize your form with drag-and-drop ease
-              </p>
+              <h2 className="form-builder-title">Your Form</h2>
+              <p className="form-builder-subtitle">Add, customize, and reorder fields below</p>
             </div>
             {fields.length > 0 && (
               <button
@@ -104,7 +106,7 @@ export default function Home() {
           <AddFieldButton onAddField={handleAddField} />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 card-animate">
           <DragDropWrapper
             fields={fields}
             setFields={setFields}
