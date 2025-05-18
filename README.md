@@ -1,122 +1,91 @@
 # Dynamic Form Builder
 
-A modern, interactive form builder application built with Next.js that allows users to create, customize, and manage dynamic forms with drag-and-drop functionality.
+A clean, modern, and interactive form builder built with **Next.js**, **TypeScript**, and **Tailwind CSS**.  
+This application allows users to create, customize, and manage dynamic forms with drag-and-drop functionality — in real-time.
 
-## Features
+---
 
-- 🎯 **Dynamic Form Creation**
-  - Add multiple field types (text, number, date, dropdown)
-  - Customize field labels and requirements
-  - Add/remove form fields dynamically
+##  Features
 
-- 🎨 **Interactive UI**
-  - Drag-and-drop field reordering
-  - Real-time form preview
-  - Modern and responsive design
-  - Intuitive field configuration
+### Dynamic Form Management
+- Add and configure multiple field types: text, number, date, and dropdown
+- Customize field labels and mark fields as required
+- Remove and reorder fields effortlessly
 
-- 💾 **Data Persistence**
-  - Automatic local storage of form structure
-  - Form data persistence between sessions
-  - Clear data option for resetting forms
+### Intuitive Drag-and-Drop
+- Smooth field reordering via drag handles
+- Built using `@dnd-kit/sortable` for performance and modularity
 
-- 📱 **Field Types**
-  - Text input
-  - Number input
-  - Date picker
-  - Dropdown with customizable options
+### Persistent State
+- All field structures and data are stored in **localStorage**
+- Automatically preserved between page reloads
+
+### Responsive, Accessible UI
+- Optimized for mobile and desktop
+- Fully keyboard-navigable and screen-reader friendly
+- Tailwind-powered layout with animations and professional design system
+
+---
+
+## Tech Stack
+
+- **Next.js 14** (App Router)
+- **React + TypeScript**
+- **Tailwind CSS**
+- **@dnd-kit/sortable** for drag-and-drop
+- **LocalStorage API** for persistence
+
+---
+
+## Folder Structure
+
+src/
+├── app/
+│ ├── page.tsx # Main logic and layout
+│ └── layout.tsx # App shell and font setup
+├── components/
+│ ├── AddFieldButton.tsx # Add field dropdown UI
+│ ├── DragDropWrapper.tsx # Sortable field renderer
+│ └── FormField.tsx # Editable form field component
+└── styles/
+└── globals.css # Custom utility overrides and animations
+
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.x or later
-- npm or yarn package manager
+- Node.js v18+
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd form-validation
-   ```
+```bash
+git clone https://github.com/your-username/form-builder.git
+cd form-builder
+npm install
+npm run dev
 
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+Then open: [http://localhost:3000]
 
-3. Run the development server:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+### HOW TO USE
 
-## Usage
+Add Field
+Use the "Add Field" button to insert a new text, number, date, or dropdown field.
 
-1. **Adding Fields**
-   - Click the "Add Field" button
-   - Select the desired field type
-   - Customize the field label and requirements
+Edit Field
+Click on the label to rename, mark as required, or configure dropdown options.
 
-2. **Managing Fields**
-   - Drag fields using the handle icon to reorder
-   - Click "Remove" to delete a field
-   - Toggle "Required" checkbox to make fields mandatory
+Reorder Fields
+Use the drag handle to reorder fields visually.
 
-3. **Form Data**
-   - Fill out the form fields
-   - Data is automatically saved to local storage
-   - Use "Clear All Data" to reset the form
+Fill and Submit
+Enter data into each field and click **Submit Form**.  
+Submitted data is logged to the console and automatically saved in local storage — even after page refresh.
 
-4. **Submitting Forms**
-   - Click "Submit Form" to submit the form
-   - Form data is logged to the console
-   - Custom submission logic can be added in the `handleSubmit` function
+Reset All
+Use "Clear All Data" to wipe all fields and reset the form from scratch.
 
-## Technologies Used
-
-- Next.js 14
-- React
-- TypeScript
-- Tailwind CSS
-- react-beautiful-dnd (for drag-and-drop)
-- Local Storage API
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── page.tsx          # Main form builder page
-│   └── layout.tsx        # Root layout component
-├── components/
-│   ├── AddFieldButton.tsx    # Field type selection button
-│   ├── DragDropWrapper.tsx   # Drag-and-drop container
-│   └── FormField.tsx         # Individual form field component
-└── styles/
-    └── globals.css       # Global styles
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Drag and drop powered by [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) 
