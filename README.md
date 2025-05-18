@@ -5,7 +5,7 @@ This application allows users to create, customize, and manage dynamic forms wit
 
 ---
 
-##  Features
+## Features
 
 ### Dynamic Form Management
 - Add and configure multiple field types: text, number, date, and dropdown
@@ -13,17 +13,17 @@ This application allows users to create, customize, and manage dynamic forms wit
 - Remove and reorder fields effortlessly
 
 ### Intuitive Drag-and-Drop
-- Smooth field reordering via drag handles
-- Built using `@dnd-kit/sortable` for performance and modularity
+- Smooth reordering using drag handles
+- Powered by `@dnd-kit/sortable` for modular and performant DnD behavior
 
 ### Persistent State
-- All field structures and data are stored in **localStorage**
+- All field structures and form data are stored in **localStorage**
 - Automatically preserved between page reloads
 
-### Responsive, Accessible UI
-- Optimized for mobile and desktop
+### Responsive & Accessible UI
+- Optimized for both mobile and desktop
 - Fully keyboard-navigable and screen-reader friendly
-- Tailwind-powered layout with animations and professional design system
+- Tailwind-powered layout with clean animations
 
 ---
 
@@ -48,8 +48,7 @@ src/
 │ ├── DragDropWrapper.tsx # Sortable field renderer
 │ └── FormField.tsx # Editable form field component
 └── styles/
-└── globals.css # Custom utility overrides and animations
-
+└── globals.css # Tailwind overrides and animations
 
 ---
 
@@ -60,7 +59,7 @@ src/
 - Node.js v18+
 - npm or yarn
 
-### Installation
+### Local Setup
 
 ```bash
 git clone https://github.com/your-username/form-builder.git
@@ -68,24 +67,36 @@ cd form-builder
 npm install
 npm run dev
 
-Then open: [http://localhost:3000]
+Open your browser at: [http://localhost:3000]
 
+## How to Use
 
-### HOW TO USE
+### Add Fields
+Use the "Add Field" button to insert a new field of type text, number, date, or dropdown.
 
-Add Field
-Use the "Add Field" button to insert a new text, number, date, or dropdown field.
+### Edit Fields
+Click on the field label to rename it, mark it as required, or (for dropdowns) add options.
 
-Edit Field
-Click on the label to rename, mark as required, or configure dropdown options.
+### Reorder Fields
+Click and drag the handle icon to reorder fields within the form.
 
-Reorder Fields
-Use the drag handle to reorder fields visually.
+### Submit Form
+Enter data into each field and click "Submit Form".
+Submitted data will appear in the console and persist across reloads.
 
-Fill and Submit
-Enter data into each field and click **Submit Form**.  
-Submitted data is logged to the console and automatically saved in local storage — even after page refresh.
+### Reset
+Use "Clear All Data" to wipe the form structure and data.
 
-Reset All
-Use "Clear All Data" to wipe all fields and reset the form from scratch.
+## Run with Docker (No Local Node.js Required)
 
+### If you'd prefer not to install Node.js or dependencies manually, use Docker:
+
+### Step 1: Build the image
+
+docker build -t dynamic-form-builder .
+
+### Step 2: Run the app
+
+docker run -p 3000:3000 dynamic-form-builder
+
+Visit: [http://localhost:3000]
